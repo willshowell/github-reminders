@@ -1,0 +1,6 @@
+@import '~@angular/material/theming';
+@import '../app/layout/layout.component.theme';
+
+@mixin github-reminders-theme($theme) {
+  @include layout-component-theme($theme);
+}

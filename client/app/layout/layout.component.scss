@@ -1,0 +1,41 @@
+.app-layout {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+
+  .mat-toolbar {
+    position: relative;
+    z-index: 1000;
+  }
+
+  .mat-sidenav {
+    display: flex;
+    flex-direction: column;
+    border-right: solid 1px;
+  }
+
+  .mat-sidenav-container {
+    width: 100%;
+  }
+
+}
+
+.app-layout-wrapper {
+  display: flex;
+  flex: 1 1 auto;
+}
+
+.app-layout-content {
+  width: 100%;
+  padding: 32px;
+  max-width: 940px;
+  margin: 0 auto;
+}
+
+.app-layout-plug {
+  text-align: center;
+}

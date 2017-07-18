@@ -1,0 +1,24 @@
+@import '~@angular/material/theming';
+
+@mixin layout-component-theme($theme) {
+
+  $foreground: map-get($theme, foreground);
+  $primary: map-get($theme, primary);
+
+  .app-layout {
+
+    .app-sidenav.mat-sidenav {
+      border-color: mat-color($foreground, divider);
+    }
+
+    .mat-icon {
+      color: mat-color($foreground, icon);
+    }
+
+    .app-layout-plug a {
+      text-decoration: none;
+      color: mat-color($primary);
+    }
+
+  }
+}
