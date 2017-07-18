@@ -7,7 +7,9 @@ import 'hammerjs';
 import { routes } from './routes';
 import { AppComponent } from './app.component';
 import { AppLayoutModule } from './layout/layout.module';
-import { AppHomeModule } from './pages/home/home.module';
+import { AppHomeModule } from './pages/home';
+import { AppRemindersModule } from './pages/reminders';
+import { AppNewReminderModule } from './pages/new';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import { AppHomeModule } from './pages/home/home.module';
 
     AppLayoutModule,
     AppHomeModule,
+    AppRemindersModule,
+    AppNewReminderModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
