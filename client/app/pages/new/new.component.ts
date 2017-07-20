@@ -11,16 +11,16 @@ import { Component, ViewEncapsulation } from '@angular/core';
     </md-input-container>
 
     <pre>
-      Set trigger:
-        Issues
-          - Closed
-          - Assigned
+      Remind me when:
+        issue
+          - is closed
+          - is assigned
 
-        Pull Request
-          - Closed (closed && merge == false)
-          - Merged
-          - Has conflict
-          - Merged and subsequent release
+        pull request
+          - is closed (closed && merge == false)
+          - is merged
+          - has conflict
+          - is merged and a release is made
     </pre>
 
     <md-input-container>
