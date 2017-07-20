@@ -1,0 +1,14 @@
+@import '~@angular/material/theming';
+
+@mixin new-component-theme($theme) {
+
+  $background: map-get($theme, background);
+
+  .app-new-reminder {
+
+    .mat-input-container {
+      background-color: mat-color($background, hover);
+    }
+
+  }
+}

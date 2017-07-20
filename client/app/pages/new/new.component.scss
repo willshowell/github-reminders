@@ -1,7 +1,10 @@
 .app-new-reminder {
+  display: block;
 
   .mat-input-container {
     width: 100%;
+    padding: 16px;
+    border-radius: 8px;
   }
 
 }

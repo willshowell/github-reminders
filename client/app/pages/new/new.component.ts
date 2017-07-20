@@ -22,6 +22,11 @@ import { Component, ViewEncapsulation } from '@angular/core';
           - Has conflict
           - Merged and subsequent release
     </pre>
+
+    <md-input-container>
+      <textarea mdInput mdTextareaAutosize placeholder="Reminder"></textarea>
+    </md-input-container>
+
   `
 })
 export class AppNewReminderPageComponent {
