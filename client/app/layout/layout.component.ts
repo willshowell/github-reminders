@@ -13,7 +13,10 @@ interface NavItem {
   styleUrls: ['layout.component.scss'],
   encapsulation: ViewEncapsulation.None,
   template: `
-    <md-toolbar color="primary">Github Reminders 🐙</md-toolbar>
+    <md-toolbar color="primary">
+      <span class="app-layout-emoji">🐙</span>
+      Github Reminders
+    </md-toolbar>
 
     <div class="app-layout-wrapper">
       <md-sidenav-container>
