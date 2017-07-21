@@ -5,4 +5,11 @@
 @mixin github-reminders-theme($theme) {
   @include layout-component-theme($theme);
   @include new-component-theme($theme);
+
+  // General styles
+  $foreground: map-get($theme, foreground);
+
+  .mat-hint {
+    color: mat-color($foreground, secondary-text);
+  }
 }

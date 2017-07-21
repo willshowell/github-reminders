@@ -6,7 +6,7 @@
 
 // Define the light theme.
 $primary: mat-palette($mat-blue);
-$accent:  mat-palette($mat-pink, A200, A100, A400);
+$accent:  mat-palette($mat-green);
 
 $theme: mat-light-theme($primary, $accent);
 @include angular-material-theme($theme);
@@ -27,4 +27,8 @@ body {
 
 .fill-remaining-space {
   flex: 1 1 auto;
+}
+
+button {
+  text-transform: uppercase;
 }

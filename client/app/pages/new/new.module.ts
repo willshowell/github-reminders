@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
-import { MdInputModule } from '@angular/material';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MdInputModule, MdButtonModule } from '@angular/material';
 import { AppNewReminderPageComponent } from './new.component';
 
 @NgModule({
   imports: [
-    MdInputModule
+    MdInputModule,
+    MdButtonModule,
+    ReactiveFormsModule,
   ],
   declarations: [AppNewReminderPageComponent],
   exports: [AppNewReminderPageComponent]
