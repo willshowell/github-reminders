@@ -62,5 +62,11 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
  */
 
 import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/sampleTime';
+import 'rxjs/add/operator/shareReplay';
+import 'rxjs/add/operator/startWith';
+
+import 'rxjs/add/observable/fromEvent';
