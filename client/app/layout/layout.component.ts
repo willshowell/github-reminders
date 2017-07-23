@@ -24,7 +24,7 @@ interface NavItem {
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   template: `
-    <md-toolbar color="primary">
+    <md-toolbar color="primary" class="mat-elevation-z4">
       <button md-icon-button
         class="app-layout-emoji"
         (click)="toggleSidenav()">
@@ -44,7 +44,7 @@ interface NavItem {
               <p md-line>{{ link.text }}</p>
             </a>
           </md-nav-list>
-          <p class="app-layout-plug">Made by <a href="https://github.com/willshowell">Will</a></p>
+          <p class="app-layout-plug">🛠 by <a href="https://github.com/willshowell">Will</a></p>
         </md-sidenav>
 
         <div class="app-layout-content">
