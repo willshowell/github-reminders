@@ -1,7 +1,8 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
-import { GithubService } from '../../core';
+import { GithubService, ApiIssue } from '../../core';
+import { Issue } from '../../shared/issue';
 
 const VALID_GITHUB_ISSUE = /(?:github\.com\/)?(\w+\/\w+)\/(issues|pull)\/(\d+)$/;
 
@@ -12,28 +13,37 @@ const VALID_GITHUB_ISSUE = /(?:github\.com\/)?(\w+\/\w+)\/(issues|pull)\/(\d+)$/
   host: { 'class': 'app-new-reminder' },
   template: `
     <form [formGroup]="newReminderForm">
+      <!-- Issue input -->
       <md-input-container>
-        <input mdInput formControlName="link" placeholder="Github Issue or Pull Request">
+        <input mdInput formControlName="link" placeholder="GitHub Issue or Pull Request">
         <md-hint>Ex. https://github.com/angular/angular/issues/1234 or angular/angular/pull/2345</md-hint>
-        <md-error>A valid Github issue or pull request is required</md-error>
+        <md-error>A valid GitHub issue or pull request is required</md-error>
       </md-input-container>
 
+      <!-- Preview -->
+      <div class="app-new-reminder-issue">
+        <app-issue
+          [class.show]="showResource"
+          [issue]="resource$ | async">
+        </app-issue>
+        <md-spinner *ngIf="resourceLoading"></md-spinner>
+      </div>
 
-      <pre>{{ resource$ | async | json }}</pre>
+      <!-- Option select -->
+      <pre *ngIf="false">
+      Remind me when:
+        issue
+          - is closed
+          - is assigned
 
-      <pre>
-        Remind me when:
-          issue
-            - is closed
-            - is assigned
-
-          pull request
-            - is closed (closed && merge == false)
-            - is merged
-            - has conflict
-            - is merged and a release is made
+        pull request
+          - is closed (closed && merge == false)
+          - is merged
+          - has conflict
+          - is merged and a release is made
       </pre>
 
+      <!-- Reminder input -->
       <md-input-container>
         <textarea mdInput mdTextareaAutosize formControlName="reminder" placeholder="Reminder"></textarea>
         <md-hint>What would you like to be reminded to do?</md-hint>
@@ -54,8 +64,11 @@ export class AppNewReminderPageComponent implements OnInit {
   /** Whether current resource should be shown */
   showResource = false;
 
+  /** Whether current resource is loading */
+  resourceLoading = false;
+
   /** Current resource from api */
-  resource$: Observable<any>
+  resource$: Observable<Issue>;
 
   constructor(
     private fb: FormBuilder,
@@ -72,25 +85,27 @@ export class AppNewReminderPageComponent implements OnInit {
     this.resource$ = this.linkControl.valueChanges
       .filter(() => this.linkControl.valid)
       .debounceTime(1000)
-      .do(() => this.showResource = false)
+      .distinctUntilChanged()
+      .do(() => {
+        this.resourceLoading = true;
+        this.showResource = false;
+      })
       .map(link => this.getApiEndpoint(link))
       .switchMap(endpoint => this.githubService.getIssue(endpoint))
-      .do(() => this.showResource = true)
-      .map(res => ({
-          type: res.type,
-          title: res.data.title,
-          state: res.data.state
-        })
-      );
+      .map(issue => this.convertToNormalizedIssue(issue))
+      .do(() => {
+        this.resourceLoading = false;
+        this.showResource = true;
+      });
   }
 
-  /** Form control for Github link */
+  /** Form control for GitHub link */
   get linkControl(): FormControl {
     return this.newReminderForm.get('link') as FormControl;
   }
 
-  /** Convert user input into a Github API endpoint */
-  getApiEndpoint(link: string) {
+  /** Convert user input into a GitHub API endpoint */
+  private getApiEndpoint(link: string) {
     const match = VALID_GITHUB_ISSUE.exec(link);
 
     if (!match) {
@@ -102,6 +117,28 @@ export class AppNewReminderPageComponent implements OnInit {
     }
 
     return `https://api.github.com/repos/${match[1]}/${match[2]}/${+match[3]}`;
+  }
+
+  /** Convert an API issue to a reduced issue for displaying */
+  private convertToNormalizedIssue(ghIssue: ApiIssue): Issue {
+    const data = ghIssue.data;
+    const issue: Issue = {
+      type: ghIssue.type,
+      state: data.state,
+      title: data.title,
+      number: data.number,
+      htmlUrl: data.html_url,
+      username: data.user.login,
+      userUrl: data.user.html_url,
+      assigned: !!data.assignee
+    };
+
+    if (issue.type === 'pr') {
+      issue.merged = data.merged;
+      issue.mergeable = data.mergeable;
+    }
+
+    return issue;
   }
 
 }

@@ -7,6 +7,18 @@
     border-radius: 8px;
   }
 
+  .app-new-reminder-issue {
+    margin: 16px 0;
+  }
+
+  .app-issue {
+    visibility: hidden;
+
+    &.show {
+      visibility: visible;
+    }
+  }
+
   .app-new-reminder-save  {
     margin-top: 32px;
   }

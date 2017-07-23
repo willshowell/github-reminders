@@ -1,0 +1,24 @@
+@import '~@angular/material/theming';
+
+@mixin issue-component-theme($theme) {
+
+  $foreground: map-get($theme, foreground);
+  $primary: map-get($theme, primary);
+
+  .app-issue {
+
+    .app-issue-details {
+      color: mat-color($foreground, secondary-text);
+    }
+
+    a {
+      color: inherit;
+
+      &:hover {
+        color: mat-color($primary, darker);
+      }
+
+    }
+  }
+
+}

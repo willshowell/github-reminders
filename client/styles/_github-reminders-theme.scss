@@ -1,10 +1,12 @@
 @import '~@angular/material/theming';
 @import '../app/layout/layout.component.theme';
 @import '../app/pages/new/new.component.theme';
+@import '../app/shared/issue/issue.component.theme';
 
 @mixin github-reminders-theme($theme) {
   @include layout-component-theme($theme);
   @include new-component-theme($theme);
+  @include issue-component-theme($theme);
 
   // General styles
   $foreground: map-get($theme, foreground);

@@ -11,6 +11,10 @@
       border-color: mat-color($foreground, divider);
     }
 
+    .mat-toolbar {
+      text-shadow: 0px 3px 3px rgba(0,0,0,0.1);
+    }
+
     .mat-icon {
       color: mat-color($foreground, icon);
     }
