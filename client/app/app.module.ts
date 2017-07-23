@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import 'hammerjs';
 
+import { CoreModule } from './core';
 import { routes } from './routes';
 import { AppComponent } from './app.component';
 import { AppLayoutModule } from './layout/layout.module';
@@ -20,6 +21,7 @@ import { AppNewReminderModule } from './pages/new';
     BrowserAnimationsModule,
     RouterModule.forRoot(routes),
 
+    CoreModule,
     AppLayoutModule,
     AppHomeModule,
     AppRemindersModule,

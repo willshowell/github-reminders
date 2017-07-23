@@ -1,5 +1,7 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
+import { GithubService } from '../../core';
 
 const VALID_GITHUB_ISSUE = /(?:github\.com\/)?(\w+\/\w+)\/(issues|pull)\/(\d+)$/;
 
@@ -15,6 +17,9 @@ const VALID_GITHUB_ISSUE = /(?:github\.com\/)?(\w+\/\w+)\/(issues|pull)\/(\d+)$/
         <md-hint>Ex. https://github.com/angular/angular/issues/1234 or angular/angular/pull/2345</md-hint>
         <md-error>A valid Github issue or pull request is required</md-error>
       </md-input-container>
+
+
+      <pre>{{ resource$ | async | json }}</pre>
 
       <pre>
         Remind me when:
@@ -46,7 +51,16 @@ export class AppNewReminderPageComponent implements OnInit {
   /** Form group bound to the html form */
   newReminderForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  /** Whether current resource should be shown */
+  showResource = false;
+
+  /** Current resource from api */
+  resource$: Observable<any>
+
+  constructor(
+    private fb: FormBuilder,
+    private githubService: GithubService
+  ) {
     this.newReminderForm = this.fb.group({
       link: ['', [Validators.pattern(VALID_GITHUB_ISSUE), Validators.required]],
       trigger: '',
@@ -55,11 +69,19 @@ export class AppNewReminderPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.linkControl.valueChanges
+    this.resource$ = this.linkControl.valueChanges
       .filter(() => this.linkControl.valid)
       .debounceTime(1000)
+      .do(() => this.showResource = false)
       .map(link => this.getApiEndpoint(link))
-      .subscribe(x => console.log(x))
+      .switchMap(endpoint => this.githubService.getIssue(endpoint))
+      .do(() => this.showResource = true)
+      .map(res => ({
+          type: res.type,
+          title: res.data.title,
+          state: res.data.state
+        })
+      );
   }
 
   /** Form control for Github link */
